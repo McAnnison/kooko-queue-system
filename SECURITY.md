@@ -59,20 +59,10 @@ If you discover a security vulnerability in Kooko Queue System, please report it
 
 ### Known Security Considerations
 
-1. **No Rate Limiting**: Current implementation doesn't include rate limiting. Add this for production.
+1. **Rate Limiting**: ✅ Implemented using `express-rate-limit`
+   - General API limit: 100 requests per 15 minutes per IP
+   - Auth endpoints: 10 requests per 15 minutes per IP
    
-   Recommended: Use `express-rate-limit`
-   ```javascript
-   const rateLimit = require('express-rate-limit');
-   
-   const limiter = rateLimit({
-     windowMs: 15 * 60 * 1000, // 15 minutes
-     max: 100 // limit each IP to 100 requests per windowMs
-   });
-   
-   app.use('/api/', limiter);
-   ```
-
 2. **Input Validation**: While basic validation exists, enhance it with express-validator for all endpoints.
 
 3. **SQL/NoSQL Injection**: Mongoose provides some protection, but always sanitize user inputs.
@@ -84,9 +74,12 @@ If you discover a security vulnerability in Kooko Queue System, please report it
 ## Security Updates
 
 ### December 2024
-- Updated mongoose from 7.6.3 to 7.8.7 to patch search injection vulnerabilities
-- Updated axios from 1.5.1 to 1.12.0+ to patch DoS and SSRF vulnerabilities
-- Removed deprecated react-navigation package
+- ✅ Implemented rate limiting using express-rate-limit
+  - General API: 100 requests per 15 minutes
+  - Auth endpoints: 10 requests per 15 minutes
+- ✅ Updated mongoose from 7.6.3 to 7.8.7 to patch search injection vulnerabilities
+- ✅ Updated axios from 1.5.1 to 1.12.0+ to patch DoS and SSRF vulnerabilities
+- ✅ Removed deprecated react-navigation package
 
 ### Recommended Production Enhancements
 
@@ -99,10 +92,7 @@ If you discover a security vulnerability in Kooko Queue System, please report it
    app.use(helmet());
    ```
 
-2. **Add Rate Limiting**:
-   ```bash
-   npm install express-rate-limit
-   ```
+2. **Add Rate Limiting**: ✅ Already implemented with `express-rate-limit`
 
 3. **Add Request Sanitization**:
    ```bash
@@ -149,7 +139,7 @@ npm outdated
 - [ ] MongoDB authentication enabled
 - [ ] Environment variables properly set
 - [ ] CORS configured for specific domains only
-- [ ] Rate limiting implemented
+- [x] Rate limiting implemented
 - [ ] Helmet.js for security headers
 - [ ] Input validation on all endpoints
 - [ ] Error messages don't leak sensitive information
